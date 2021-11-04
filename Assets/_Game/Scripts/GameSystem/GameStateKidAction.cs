@@ -15,6 +15,7 @@ public class GameStateKidAction : State
     {
         base.Enter();
 
+        StatePrinter.current.printState("STATE: Kid Team Perform Action");
         Debug.Log("STATE: Kid Team Perform Action");
     }
 
@@ -31,7 +32,14 @@ public class GameStateKidAction : State
         if (StateDuration >= 1.5f) //check if team can perform more actions
         {
             //commented out so we can show off all the states
-            _stateMachine.ChangeState(_stateMachine.SquidSelectState);
+            if(_stateMachine.TurnNumber < _stateMachine.MaxTurns)
+            {
+                _stateMachine.ChangeState(_stateMachine.SquidSelectState);
+            }
+            else
+            {
+                _stateMachine.ChangeState(_stateMachine.FinishState);
+            }
             //_stateMachine.ChangeState(_stateMachine.KidSelectState);
         }
         //no more actions are available
@@ -40,6 +48,6 @@ public class GameStateKidAction : State
         //_stateMachine.ChangeState(_stateMachine.SquidSelectState);
 
         //else
-        //_stateMachine.ChangeState(_stateMachine.FinishState);
+        //
     }
 }

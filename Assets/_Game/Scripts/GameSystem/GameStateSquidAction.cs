@@ -15,6 +15,7 @@ public class GameStateSquidAction : State
     {
         base.Enter();
 
+        StatePrinter.current.printState("STATE: Squid Team Perform Action");
         Debug.Log("STATE: Squid Team Perform Action");
     }
 

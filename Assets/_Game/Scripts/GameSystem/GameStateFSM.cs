@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameStateFSM : StateMachineMB
 {
@@ -15,8 +16,11 @@ public class GameStateFSM : StateMachineMB
     public GameStateSquidWin SquidWinState { get; private set; }
     public GameStateKidWin KidWinState { get; private set; }
 
-    public int TurnNumber { get; private set; }
+    
     public int MaxTurns = 10;
+    [HideInInspector] public int TurnNumber = 0;
+    public bool squidTeamWin { get; private set; }
+    [HideInInspector] public bool gameOver = false;
 
     private void Awake()
     {
@@ -34,5 +38,18 @@ public class GameStateFSM : StateMachineMB
     private void Start()
     {
         ChangeState(StartState);
+    }
+
+    void LateUpdate()
+    {
+        base.Update();
+
+        if(gameOver)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(0);
+            }
+        }
     }
 }

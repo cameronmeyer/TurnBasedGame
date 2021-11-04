@@ -15,6 +15,8 @@ public class GameStateStart : State
     {
         base.Enter();
 
+        _stateMachine.gameOver = false;
+        StatePrinter.current.printState("STATE: Start Game");
         Debug.Log("STATE: Start Game");
     }
 

@@ -15,6 +15,7 @@ public class GameStateKidWin : State
     {
         base.Enter();
 
+        StatePrinter.current.printState("STATE: Kid Team Win\nPress ESC for Main Menu");
         Debug.Log("STATE: Kid Team Win");
     }
 

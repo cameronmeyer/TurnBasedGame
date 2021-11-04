@@ -15,6 +15,7 @@ public class GameStateSquidWin : State
     {
         base.Enter();
 
+        StatePrinter.current.printState("STATE: Squid Team Win\nPress ESC for Main Menu");
         Debug.Log("STATE: Squid Team Win");
     }
 

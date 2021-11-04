@@ -15,6 +15,8 @@ public class GameStateFinish : State
     {
         base.Enter();
 
+        _stateMachine.gameOver = true;
+        StatePrinter.current.printState("STATE: Finish Game");
         Debug.Log("STATE: Finish Game");
     }
 
@@ -30,10 +32,17 @@ public class GameStateFinish : State
 
         if (StateDuration >= 1.5f) //check if squid team won
         {
-            _stateMachine.ChangeState(_stateMachine.SquidWinState);
+            if(_stateMachine.squidTeamWin)
+            {
+                _stateMachine.ChangeState(_stateMachine.SquidWinState);
+            }
+            else
+            {
+                _stateMachine.ChangeState(_stateMachine.KidWinState);
+            }
         }
         //check if kid team won
-        //_stateMachine.ChangeState(_stateMachine.KidWinState);
+        //
 
         //draw/tie state??
     }

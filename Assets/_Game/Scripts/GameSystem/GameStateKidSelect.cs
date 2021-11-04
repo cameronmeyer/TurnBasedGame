@@ -15,6 +15,7 @@ public class GameStateKidSelect : State
     {
         base.Enter();
 
+        StatePrinter.current.printState("STATE: Kid Team Select Action");
         Debug.Log("STATE: Kid Team Select Action");
     }
 
