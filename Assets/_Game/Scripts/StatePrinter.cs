@@ -7,6 +7,7 @@ public class StatePrinter : MonoBehaviour
 {
     public static StatePrinter current;
     [SerializeField] Text stateText;
+    [SerializeField] Text turnText;
 
     void Start()
     {
@@ -16,5 +17,10 @@ public class StatePrinter : MonoBehaviour
     public void printState(string state)
     {
         stateText.text = state;
+    }
+
+    public void printTurn(int turn, int maxTurns)
+    {
+        turnText.text = "Current Turn: " + turn + " / " + maxTurns;
     }
 }

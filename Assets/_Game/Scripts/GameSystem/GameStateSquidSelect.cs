@@ -16,6 +16,8 @@ public class GameStateSquidSelect : State
         base.Enter();
 
         _stateMachine.TurnNumber++;
+
+        StatePrinter.current.printTurn(_stateMachine.TurnNumber, _stateMachine.MaxTurns);
         StatePrinter.current.printState("STATE: Squid Team Select Action");
         Debug.Log("STATE: Squid Team Select Action");
     }

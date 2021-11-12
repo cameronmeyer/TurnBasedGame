@@ -5,19 +5,24 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     [SerializeField] GameObject floor;
-
     [SerializeField] Texture2D mapImage;
 
     void Start()
     {
-        Debug.Log("1");
         Color[] pixels = mapImage.GetPixels();
 
         int worldX = mapImage.width;
         int worldZ = mapImage.height;
 
+        GridSpace[,] board = new GridSpace[worldX, worldZ];
+
         Vector3[] spawnPositions = new Vector3[pixels.Length];
         Vector3 startingSpawnPos = new Vector3(-Mathf.Round(worldX / 2), 0, -Mathf.Round(worldZ / 2));
+
+        // adjust starting point based on dimensions of map (centers the map on screen)
+        startingSpawnPos.x += worldX % 2 == 0 ? 0.5f : 0;
+        startingSpawnPos.z += worldZ % 2 == 0 ? 0.5f : 0;
+        
         Vector3 currentSpawnPos = startingSpawnPos;
 
         int counter = 0;
@@ -26,7 +31,18 @@ public class MapGenerator : MonoBehaviour
         {
             for (int x = 0; x < worldX; x++)
             {
-                spawnPositions[counter] = currentSpawnPos;
+                if(pixels[counter].Equals(Color.white))
+                {
+                    GameObject newTile = Instantiate(floor, currentSpawnPos, floor.transform.rotation);
+                    board[x, z] = new GridSpace(null, newTile.GetComponent<Tile>());
+                }
+                // else if(pixels[counter].Equals(Color.gray))
+                // set the board space to be a spawn point, spawn a piece there, spawn a floor tile
+                else
+                {
+                    board[x, z] = new GridSpace(null, null);
+                }
+
                 counter++;
                 currentSpawnPos.x++;
             }
@@ -35,20 +51,17 @@ public class MapGenerator : MonoBehaviour
             currentSpawnPos.z++;
         }
 
-        counter = 0;
-
-        foreach (Vector3 pos in spawnPositions)
+        /*string boardDebug = "";
+        for (int z = worldZ - 1; z >= 0; z--)
         {
-            Color color = pixels[counter];
-
-            Debug.Log("2");
-            if (color.Equals(Color.white))
+            for (int x = 0; x < worldX; x++)
             {
-                Debug.Log("3");
-                Instantiate(floor, pos, floor.transform.rotation);
+                //boardDebug += (board[x, z].isFloor ? "T" : "F") + " ";
             }
+            boardDebug += "\n";
+        }*/
 
-            counter++;
-        }
+        //Debug.Log(boardDebug);
+        //BoardStatus.current.Setup(board);
     }
 }
