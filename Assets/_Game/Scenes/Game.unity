@@ -681,6 +681,7 @@ GameObject:
   - component: {fileID: 1879111315}
   - component: {fileID: 1879111317}
   - component: {fileID: 1879111318}
+  - component: {fileID: 1879111319}
   m_Layer: 0
   m_Name: GameState
   m_TagString: Untagged
@@ -743,6 +744,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0661cdfaf039e584cb9168c0a600a217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TeamSquid: {fileID: 2100000, guid: ef81e7fe365488546a9cf015f72f62a5, type: 2}
+  TeamKid: {fileID: 2100000, guid: 0d510bde4a392bd4fa37dac5bda5cab2, type: 2}
+--- !u!114 &1879111319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879111314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df6b5d2531c36f647bf93a6d226acfee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamColors:
+  - color1: {r: 0.16862746, g: 0.14509805, b: 0.9019608, a: 1}
+    color2: {r: 0.9607843, g: 0.6117647, b: 0.13725491, a: 1}
+  - color1: {r: 0.2901961, g: 0.5176471, b: 1, a: 1}
+    color2: {r: 0.79607844, g: 0.9764706, b: 0.69411767, a: 1}
+  - color1: {r: 0.05490196, g: 0.81960785, b: 0.7764706, a: 1}
+    color2: {r: 0.9411765, g: 0.37254903, b: 0.5568628, a: 1}
+  - color1: {r: 0.98039216, g: 0.14117648, b: 1, a: 1}
+    color2: {r: 0.8352941, g: 1, b: 0.13725491, a: 1}
+  - color1: {r: 0.2509804, g: 0.84705883, b: 0.27058825, a: 1}
+    color2: {r: 0.99607843, g: 0.2, b: 0.79607844, a: 1}
+  - color1: {r: 0.54509807, g: 0.19607843, b: 0.91764706, a: 1}
+    color2: {r: 0.19215687, g: 0.9411765, b: 0.56078434, a: 1}
+  - color1: {r: 1, g: 0.7411765, b: 0.21176471, a: 1}
+    color2: {r: 0.8980392, g: 0.2, b: 0.7372549, a: 1}
 --- !u!1001 &2873396341930507818
 PrefabInstance:
   m_ObjectHideFlags: 0

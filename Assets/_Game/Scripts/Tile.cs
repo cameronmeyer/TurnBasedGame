@@ -14,6 +14,10 @@ public class Tile : MonoBehaviour
     public TilePaint paint;
     public bool isRespawnPoint;
     //public bool isOccupied;
+    [HideInInspector] public MeshRenderer tileRenderer;
+
+    private Material SquidMaterial;
+    private Material KidMaterial;
 
     public Tile()
     {
@@ -25,5 +29,10 @@ public class Tile : MonoBehaviour
     {
         paint = TilePaint.UNPAINTED;
         this.isRespawnPoint = isRespawnPoint;
+    }
+
+    private void Start()
+    {
+        tileRenderer = gameObject.GetComponent<MeshRenderer>();
     }
 }

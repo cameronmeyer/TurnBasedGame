@@ -15,6 +15,9 @@ public class Piece : MonoBehaviour
     public bool team;
     public int currentHP;
     public int maxHP { get; private set; }
+    public Color squidColor;
+    public Color kidColor;
+    //set piece material based on what team it is on
 
     public Piece(Type pieceType, bool team, int maxHP)
     {
