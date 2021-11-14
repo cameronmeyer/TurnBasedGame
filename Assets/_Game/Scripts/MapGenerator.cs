@@ -33,11 +33,24 @@ public class MapGenerator : MonoBehaviour
             {
                 if(pixels[counter].Equals(Color.white))
                 {
-                    GameObject newTile = Instantiate(floor, currentSpawnPos, floor.transform.rotation);
-                    board[x, z] = new GridSpace(null, newTile.GetComponent<Tile>());
+                    GameObject floorTile = Instantiate(floor, currentSpawnPos, floor.transform.rotation);
+                    floorTile.GetComponent<Tile>().Init(TileSpawn.NO_SPAWN);
+                    board[x, z] = new GridSpace(null, floorTile.GetComponent<Tile>());
                 }
-                // else if(pixels[counter].Equals(Color.gray))
-                // set the board space to be a spawn point, spawn a piece there, spawn a floor tile
+                else if(pixels[counter].Equals(Color.red))
+                {
+                    GameObject floorTile = Instantiate(floor, currentSpawnPos, floor.transform.rotation);
+                    //floorTile.GetComponent<Tile>().respawn = TileSpawn.RESPAWN_SQUID;
+                    floorTile.GetComponent<Tile>().Init(TileSpawn.RESPAWN_SQUID);
+                    board[x, z] = new GridSpace(null, floorTile.GetComponent<Tile>());
+                }
+                else if (pixels[counter].Equals(Color.blue))
+                {
+                    GameObject floorTile = Instantiate(floor, currentSpawnPos, floor.transform.rotation);
+                    //floorTile.GetComponent<Tile>().respawn = TileSpawn.RESPAWN_KID;
+                    floorTile.GetComponent<Tile>().Init(TileSpawn.RESPAWN_KID);
+                    board[x, z] = new GridSpace(null, floorTile.GetComponent<Tile>());
+                }
                 else
                 {
                     board[x, z] = new GridSpace(null, null);

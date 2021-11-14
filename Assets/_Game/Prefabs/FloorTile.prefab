@@ -110,7 +110,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paint: 0
-  isRespawnPoint: 0
+  respawn: 0
   tileRenderer: {fileID: 0}
-  SquidMaterial: {fileID: 2100000, guid: ef81e7fe365488546a9cf015f72f62a5, type: 2}
-  KidMaterial: {fileID: 2100000, guid: 0d510bde4a392bd4fa37dac5bda5cab2, type: 2}
+  RespawnMaterial: {fileID: 2100000, guid: 02980f9887ab1414e813627eb9cc24ab, type: 2}

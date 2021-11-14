@@ -12,18 +12,21 @@ public enum Type
 public class Piece : MonoBehaviour
 {
     public Type pieceType;
-    public bool team;
+    public bool team;  // true = squid, false = kid
     public int currentHP;
     public int maxHP { get; private set; }
-    public Color squidColor;
-    public Color kidColor;
-    //set piece material based on what team it is on
+    public Material squidMaterial;
+    public Material kidMaterial;
 
-    public Piece(Type pieceType, bool team, int maxHP)
+    //public Piece(Type pieceType, bool team, int maxHP) { Init(pieceType, team, maxHP); }
+
+    public void Init(Type pieceType, bool team, int maxHP)
     {
         this.pieceType = pieceType;
         this.team = team;
         this.maxHP = maxHP;
+
+        gameObject.GetComponent<MeshRenderer>().material = team ? squidMaterial : kidMaterial;
     }
 
     public List<Vector2> getPaintPattern()

@@ -27,9 +27,18 @@ public class BoardStatus : MonoBehaviour
         ColorPair teamColors = gameObject.GetComponent<Colors>().GetColorPair();
 
         // 50% chance to swap team colors
+        int swapColors = (int) Random.Range(0, 2); // generates either 0 or 1
 
-        TeamSquid.color = teamColors.color1;
-        TeamKid.color = teamColors.color2;
+        if (swapColors < 1)
+        {
+            TeamSquid.color = teamColors.color1;
+            TeamKid.color = teamColors.color2;
+        }
+        else
+        {
+            TeamSquid.color = teamColors.color2;
+            TeamKid.color = teamColors.color1;
+        }
     }
 }
 
