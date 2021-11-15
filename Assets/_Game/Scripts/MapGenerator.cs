@@ -26,6 +26,8 @@ public class MapGenerator : MonoBehaviour
         Vector3 currentSpawnPos = startingSpawnPos;
 
         int counter = 0;
+        List<Vector2> squidRespawns = new List<Vector2>();
+        List<Vector2> kidRespawns = new List<Vector2>();
 
         for (int z = 0; z < worldZ; z++)
         {
@@ -42,6 +44,7 @@ public class MapGenerator : MonoBehaviour
                     GameObject floorTile = Instantiate(floor, currentSpawnPos, floor.transform.rotation);
                     //floorTile.GetComponent<Tile>().respawn = TileSpawn.RESPAWN_SQUID;
                     floorTile.GetComponent<Tile>().Init(TileSpawn.RESPAWN_SQUID);
+                    squidRespawns.Add(new Vector2(x, z));
                     board[x, z] = new GridSpace(null, floorTile.GetComponent<Tile>());
                 }
                 else if (pixels[counter].Equals(Color.blue))
@@ -49,6 +52,7 @@ public class MapGenerator : MonoBehaviour
                     GameObject floorTile = Instantiate(floor, currentSpawnPos, floor.transform.rotation);
                     //floorTile.GetComponent<Tile>().respawn = TileSpawn.RESPAWN_KID;
                     floorTile.GetComponent<Tile>().Init(TileSpawn.RESPAWN_KID);
+                    kidRespawns.Add(new Vector2(x, z));
                     board[x, z] = new GridSpace(null, floorTile.GetComponent<Tile>());
                 }
                 else
@@ -64,6 +68,9 @@ public class MapGenerator : MonoBehaviour
             currentSpawnPos.z++;
         }
 
+        BoardStatus.current.Setup(board);
+        BoardStatus.current.InitTeams(squidRespawns, kidRespawns);
+
         /*string boardDebug = "";
         for (int z = worldZ - 1; z >= 0; z--)
         {
@@ -75,6 +82,6 @@ public class MapGenerator : MonoBehaviour
         }*/
 
         //Debug.Log(boardDebug);
-        //BoardStatus.current.Setup(board);
+        
     }
 }

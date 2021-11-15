@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3976294241398454982}
+  - component: {fileID: 6188281468801886783}
   m_Layer: 0
   m_Name: Roller
   m_TagString: Untagged
@@ -31,6 +32,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6188281468801886783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777508370565651363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7006b0c18d55104459db4651b7decd48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pieceType: 1
+  team: 0
+  currentHP: 0
+  squidMaterial: {fileID: 0}
+  kidMaterial: {fileID: 0}
 --- !u!1001 &8472238943527129717
 PrefabInstance:
   m_ObjectHideFlags: 0

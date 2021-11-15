@@ -6,8 +6,15 @@ using UnityEngine.UI;
 public class BoardStatus : MonoBehaviour
 {
     public static BoardStatus current;
-    [SerializeField] private Material TeamSquid;
-    [SerializeField] private Material TeamKid;
+    public List<Piece> TeamSquid;
+    public List<Piece> TeamKid;
+
+    [SerializeField] private Material TeamSquidMat;
+    [SerializeField] private Material TeamKidMat;
+    [SerializeField] private GameObject Shooter;
+    [SerializeField] private GameObject Roller;
+    [SerializeField] private GameObject Bomb;
+    [SerializeField] [Range(0.0f, 1.0f)] private float percentRollerTeammates = 0.2f;
 
     [HideInInspector] public GridSpace[,] board;
 
@@ -16,7 +23,7 @@ public class BoardStatus : MonoBehaviour
         board = map;
     }
 
-    void Start()
+    void Awake()
     {
         current = this;
         ChooseTeamColors();
@@ -31,13 +38,58 @@ public class BoardStatus : MonoBehaviour
 
         if (swapColors < 1)
         {
-            TeamSquid.color = teamColors.color1;
-            TeamKid.color = teamColors.color2;
+            TeamSquidMat.color = teamColors.color1;
+            TeamKidMat.color = teamColors.color2;
         }
         else
         {
-            TeamSquid.color = teamColors.color2;
-            TeamKid.color = teamColors.color1;
+            TeamSquidMat.color = teamColors.color2;
+            TeamKidMat.color = teamColors.color1;
+        }
+    }
+
+    public void InitTeams(List<Vector2> squidTeamRespawns, List<Vector2> kidTeamRespawns)
+    {
+        // function accepts list of GridSpace locations for each team's respawns
+
+        if(squidTeamRespawns.Count != kidTeamRespawns.Count)
+        {
+            Debug.LogError("Unequal team sizes");
+            return;
+        }
+
+        int totalTeammates = squidTeamRespawns.Count;
+        for(int teamSize = 0; teamSize < totalTeammates; teamSize++)
+        {
+            int squidRespawn = Random.Range(0, squidTeamRespawns.Count);
+            int kidRespawn = Random.Range(0, kidTeamRespawns.Count);
+            
+            if (teamSize % 3 == 2) // spawn 1 roller for every 2 shooters
+            {
+                // spawn rollers
+
+                // squid team
+                GameObject squidRoller = Instantiate(Roller, board[(int) squidTeamRespawns[squidRespawn].x, (int) squidTeamRespawns[squidRespawn].y].tile.transform.position, Quaternion.LookRotation(Vector3.right));
+                TeamSquid.Add(squidRoller.GetComponent<Piece>());
+
+                // kid team
+                GameObject kidRoller = Instantiate(Roller, board[(int)kidTeamRespawns[kidRespawn].x, (int)kidTeamRespawns[kidRespawn].y].tile.transform.position, Quaternion.LookRotation(Vector3.left));
+                TeamKid.Add(kidRoller.GetComponent<Piece>());
+            }
+            else
+            {
+                // spawn shooters
+
+                // squid team
+                GameObject squidShooter = Instantiate(Shooter, board[(int)squidTeamRespawns[squidRespawn].x, (int)squidTeamRespawns[squidRespawn].y].tile.transform.position, Quaternion.LookRotation(Vector3.right));
+                TeamSquid.Add(squidShooter.GetComponent<Piece>());
+
+                // kid team
+                GameObject kidShooter = Instantiate(Shooter, board[(int)kidTeamRespawns[kidRespawn].x, (int)kidTeamRespawns[kidRespawn].y].tile.transform.position, Quaternion.LookRotation(Vector3.left));
+                TeamKid.Add(kidShooter.GetComponent<Piece>());
+            }
+            squidTeamRespawns.RemoveAt(squidRespawn);
+            kidTeamRespawns.RemoveAt(kidRespawn);
         }
     }
 }

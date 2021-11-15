@@ -17,6 +17,7 @@ public class Piece : MonoBehaviour
     public int maxHP { get; private set; }
     public Material squidMaterial;
     public Material kidMaterial;
+    public GridSpace respawnLocation;
 
     //public Piece(Type pieceType, bool team, int maxHP) { Init(pieceType, team, maxHP); }
 
