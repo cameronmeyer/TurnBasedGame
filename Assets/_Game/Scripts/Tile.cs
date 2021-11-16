@@ -24,11 +24,8 @@ public class Tile : MonoBehaviour
     [HideInInspector] public MeshRenderer tileRenderer;
 
     [SerializeField] Material RespawnMaterial;
-    private Material SquidMaterial;
-    private Material KidMaterial;
-
-    //public Tile() { Init(TileSpawn.NO_SPAWN); }
-    //public Tile(TileSpawn respawn) { Init(respawn); }
+    [SerializeField] private Material SquidMaterial;
+    [SerializeField] private Material KidMaterial;
 
     private void Start()
     {
@@ -46,7 +43,7 @@ public class Tile : MonoBehaviour
             tileRenderer.material = RespawnMaterial;
     }
 
-    private void UpdatePaint(TilePaint newPaint)
+    public void UpdatePaint(TilePaint newPaint)
     {
         paint = newPaint;
         tileRenderer.material = (paint == TilePaint.SQUID_PAINT) ? SquidMaterial : KidMaterial;
