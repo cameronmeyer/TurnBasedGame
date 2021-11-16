@@ -744,8 +744,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0661cdfaf039e584cb9168c0a600a217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TeamSquid: {fileID: 2100000, guid: ef81e7fe365488546a9cf015f72f62a5, type: 2}
-  TeamKid: {fileID: 2100000, guid: 0d510bde4a392bd4fa37dac5bda5cab2, type: 2}
+  TeamSquid: []
+  TeamKid: []
+  TeamSquidMat: {fileID: 2100000, guid: ef81e7fe365488546a9cf015f72f62a5, type: 2}
+  TeamKidMat: {fileID: 2100000, guid: 0d510bde4a392bd4fa37dac5bda5cab2, type: 2}
+  Shooter: {fileID: 2381466940748582197, guid: c88dab246215d61469124e79e3738011, type: 3}
+  Roller: {fileID: 1777508370565651363, guid: 38b2686de48e9c84a845cf6dffcf699e, type: 3}
+  Bomb: {fileID: 5054924176194609450, guid: 619c38f95fee226449acbb72bb852156, type: 3}
+  maxPieceHP: 0
+  isPaintBoard: 0
 --- !u!114 &1879111319
 MonoBehaviour:
   m_ObjectHideFlags: 0

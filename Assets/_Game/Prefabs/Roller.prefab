@@ -47,8 +47,10 @@ MonoBehaviour:
   pieceType: 1
   team: 0
   currentHP: 0
-  squidMaterial: {fileID: 0}
-  kidMaterial: {fileID: 0}
+  paintRenderer: {fileID: 1486801329281380797}
+  paintRendererMaterialIndex: 5
+  squidMaterial: {fileID: 2100000, guid: ef81e7fe365488546a9cf015f72f62a5, type: 2}
+  kidMaterial: {fileID: 2100000, guid: 0d510bde4a392bd4fa37dac5bda5cab2, type: 2}
 --- !u!1001 &8472238943527129717
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145,5 +147,10 @@ PrefabInstance:
 --- !u!4 &8221823678578898334 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a0f9bda3788f7c941972329da4be602d, type: 3}
+  m_PrefabInstance: {fileID: 8472238943527129717}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1486801329281380797 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7003481700182221768, guid: a0f9bda3788f7c941972329da4be602d, type: 3}
   m_PrefabInstance: {fileID: 8472238943527129717}
   m_PrefabAsset: {fileID: 0}

@@ -14,7 +14,8 @@ public class BoardStatus : MonoBehaviour
     [SerializeField] private GameObject Shooter;
     [SerializeField] private GameObject Roller;
     [SerializeField] private GameObject Bomb;
-    [SerializeField] [Range(0.0f, 1.0f)] private float percentRollerTeammates = 0.2f;
+    [SerializeField] private int maxPieceHP = 2;
+    [SerializeField] private bool isPaintBoard = false;
 
     [HideInInspector] public GridSpace[,] board;
 
@@ -61,35 +62,73 @@ public class BoardStatus : MonoBehaviour
         int totalTeammates = squidTeamRespawns.Count;
         for(int teamSize = 0; teamSize < totalTeammates; teamSize++)
         {
-            int squidRespawn = Random.Range(0, squidTeamRespawns.Count);
-            int kidRespawn = Random.Range(0, kidTeamRespawns.Count);
-            
+            int squidRespawnIndex = Random.Range(0, squidTeamRespawns.Count);
+            int kidRespawnIndex = Random.Range(0, kidTeamRespawns.Count);
+
+            GridSpace squidRespawnSpace = board[(int)squidTeamRespawns[squidRespawnIndex].x, (int)squidTeamRespawns[squidRespawnIndex].y];
+            GridSpace kidRespawnSpace = board[(int)kidTeamRespawns[kidRespawnIndex].x, (int)kidTeamRespawns[kidRespawnIndex].y];
+
             if (teamSize % 3 == 2) // spawn 1 roller for every 2 shooters
             {
                 // spawn rollers
 
                 // squid team
-                GameObject squidRoller = Instantiate(Roller, board[(int) squidTeamRespawns[squidRespawn].x, (int) squidTeamRespawns[squidRespawn].y].tile.transform.position, Quaternion.LookRotation(Vector3.right));
-                TeamSquid.Add(squidRoller.GetComponent<Piece>());
+                GameObject squidRoller = Instantiate(Roller, squidRespawnSpace.tile.transform.position, Quaternion.LookRotation(Vector3.right));
+                Piece squidRollerPiece = squidRoller.GetComponent<Piece>();
+                squidRollerPiece.Init(true, maxPieceHP, squidRespawnSpace);
+                TeamSquid.Add(squidRollerPiece);
 
                 // kid team
-                GameObject kidRoller = Instantiate(Roller, board[(int)kidTeamRespawns[kidRespawn].x, (int)kidTeamRespawns[kidRespawn].y].tile.transform.position, Quaternion.LookRotation(Vector3.left));
-                TeamKid.Add(kidRoller.GetComponent<Piece>());
+                GameObject kidRoller = Instantiate(Roller, kidRespawnSpace.tile.transform.position, Quaternion.LookRotation(Vector3.left));
+                Piece kidRollerPiece = kidRoller.GetComponent<Piece>();
+                kidRollerPiece.Init(false, maxPieceHP, kidRespawnSpace);
+                TeamKid.Add(kidRollerPiece);
             }
             else
             {
                 // spawn shooters
 
                 // squid team
-                GameObject squidShooter = Instantiate(Shooter, board[(int)squidTeamRespawns[squidRespawn].x, (int)squidTeamRespawns[squidRespawn].y].tile.transform.position, Quaternion.LookRotation(Vector3.right));
-                TeamSquid.Add(squidShooter.GetComponent<Piece>());
+                GameObject squidShooter = Instantiate(Shooter, squidRespawnSpace.tile.transform.position, Quaternion.LookRotation(Vector3.right));
+                Piece squidShooterPiece = squidShooter.GetComponent<Piece>();
+                squidShooterPiece.Init(true, maxPieceHP, squidRespawnSpace);
+                TeamSquid.Add(squidShooterPiece);
 
                 // kid team
-                GameObject kidShooter = Instantiate(Shooter, board[(int)kidTeamRespawns[kidRespawn].x, (int)kidTeamRespawns[kidRespawn].y].tile.transform.position, Quaternion.LookRotation(Vector3.left));
-                TeamKid.Add(kidShooter.GetComponent<Piece>());
+                GameObject kidShooter = Instantiate(Shooter, kidRespawnSpace.tile.transform.position, Quaternion.LookRotation(Vector3.left));
+                Piece kidShooterPiece = kidShooter.GetComponent<Piece>();
+                kidShooterPiece.Init(false, maxPieceHP, kidRespawnSpace);
+                TeamKid.Add(kidShooterPiece);
             }
-            squidTeamRespawns.RemoveAt(squidRespawn);
-            kidTeamRespawns.RemoveAt(kidRespawn);
+            squidTeamRespawns.RemoveAt(squidRespawnIndex);
+            kidTeamRespawns.RemoveAt(kidRespawnIndex);
+        }
+
+        foreach (Piece piece in TeamSquid)
+        {
+            Debug.Log("Piece " + TeamSquid.Count);
+        }
+    }
+
+    private void Update()
+    {
+        if (isPaintBoard)
+        {
+            PaintBoard();
+            isPaintBoard = false;
+        }
+    }
+
+    public void PaintBoard()
+    {
+        List<Vector2> paintSplatter = new List<Vector2>();
+        paintSplatter = TeamSquid[0].getPaintPattern(new Vector2(5, 5), Direction.UP);
+
+        foreach (Vector2 paintedTile in paintSplatter)
+        {
+            if(board[(int)paintedTile.x, (int)paintedTile.y].tile != null)
+                board[(int) paintedTile.x, (int) paintedTile.y].tile.tileRenderer.material = TeamSquidMat;
+            Debug.Log("Paint Tile: (" + paintedTile.x + ", " + paintedTile.y + ")");
         }
     }
 }
