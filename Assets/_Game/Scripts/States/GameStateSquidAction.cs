@@ -29,7 +29,7 @@ public class GameStateSquidAction : State
         base.Update();
         //decrement team action counter
 
-        if (StateDuration >= 1.5f) //check if team can perform more actions
+        if (CommenceTransition)//(StateDuration >= 1.5f) //check if team can perform more actions
         {
             //commented out so we can show off all the states
             //_stateMachine.ChangeState(_stateMachine.SquidSelectState);

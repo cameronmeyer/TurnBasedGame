@@ -29,7 +29,7 @@ public class GameStateKidAction : State
         base.Update();
         //decrement team action counter
 
-        if (StateDuration >= 1.5f) //check if team can perform more actions
+        if (CommenceTransition)//(StateDuration >= 1.5f) //check if team can perform more actions
         {
             //commented out so we can show off all the states
             if(_stateMachine.TurnNumber < _stateMachine.MaxTurns)

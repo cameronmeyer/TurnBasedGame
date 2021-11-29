@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class GameStateFSM : StateMachineMB
 {
-    // TODO: Serialized reference to MatchController. Sets team colors before the match and # turns. 
-
     public GameStateStart StartState { get; private set; }
     public GameStateSquidSelect SquidSelectState { get; private set; }
     public GameStateSquidAction SquidActionState { get; private set; }

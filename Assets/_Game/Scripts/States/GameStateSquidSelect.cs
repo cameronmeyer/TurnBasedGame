@@ -31,7 +31,7 @@ public class GameStateSquidSelect : State
     {
         base.Update();
 
-        if (StateDuration >= 1.5f)
+        if (CommenceTransition)//(StateDuration >= 1.5f)
         {
             _stateMachine.ChangeState(_stateMachine.SquidActionState);
         }
