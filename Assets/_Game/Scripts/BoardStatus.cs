@@ -118,22 +118,46 @@ public class BoardStatus : MonoBehaviour
     {
         if (isPaintBoard)
         {
-            PaintBoard();
+            int pieceIndex = (int) Random.Range(0, TeamSquid.Count);
+            Piece piece = TeamKid[pieceIndex];
+
+            PaintBoard(piece, Direction.LEFT);
             isPaintBoard = false;
         }
     }
 
-    public void PaintBoard()
+    public void PaintBoard(Piece paintSource, Direction dir)
     {
         List<Vector2Int> paintSplatter = new List<Vector2Int>();
-        paintSplatter = TeamSquid[0].getPaintPattern(new Vector2Int(5, 5), Direction.LEFT);
+        int paintSourceIndex;
+
+        if (paintSource.team) // painting for Squid Team
+        {
+            paintSourceIndex = TeamSquid.IndexOf(paintSource);
+            paintSplatter = TeamSquid[paintSourceIndex].getPaintPattern(dir);
+
+            foreach (Vector2Int paintedTile in paintSplatter)
+            {
+                board[paintedTile.x, paintedTile.y].tile.UpdatePaint(TilePaint.SQUID_PAINT);
+                //Debug.Log("Paint Tile: (" + paintedTile.x + ", " + paintedTile.y + ")");
+            }
+        }
+        else
+        {
+            paintSourceIndex = TeamKid.IndexOf(paintSource);
+            paintSplatter = TeamKid[paintSourceIndex].getPaintPattern(dir);
+
+            foreach (Vector2Int paintedTile in paintSplatter)
+            {
+                board[paintedTile.x, paintedTile.y].tile.UpdatePaint(TilePaint.KID_PAINT);
+                //Debug.Log("Paint Tile: (" + paintedTile.x + ", " + paintedTile.y + ")");
+            }
+        }
 
         foreach (Vector2Int paintedTile in paintSplatter)
         {
             board[paintedTile.x, paintedTile.y].tile.UpdatePaint(TilePaint.SQUID_PAINT);
-            //if (board[paintedTile.x, paintedTile.y].tile != null)
-            //    board[paintedTile.x, paintedTile.y].tile.tileRenderer.material = TeamSquidMat;
-            Debug.Log("Paint Tile: (" + paintedTile.x + ", " + paintedTile.y + ")");
+            //Debug.Log("Paint Tile: (" + paintedTile.x + ", " + paintedTile.y + ")");
         }
     }
 }

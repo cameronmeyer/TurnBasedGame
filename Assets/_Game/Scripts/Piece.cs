@@ -44,7 +44,7 @@ public class Piece : MonoBehaviour
         paintRenderer.materials = pieceMaterialInstances;
     }
 
-    public List<Vector2Int> getPaintPattern(Vector2Int gridSpaceLocation, Direction facing)
+    public List<Vector2Int> getPaintPattern(Direction facing)
     {
         List<Vector2Int> paintPattern = new List<Vector2Int>();
 
@@ -87,16 +87,16 @@ public class Piece : MonoBehaviour
             switch (facing)
             {
                 case Direction.UP:
-                    relativePaintPattern.Add(new Vector2Int(gridSpaceLocation.x + paintTile.x, gridSpaceLocation.y + paintTile.y));
+                    relativePaintPattern.Add(new Vector2Int(pieceLocation.x + paintTile.x, pieceLocation.y + paintTile.y));
                     break;
                 case Direction.DOWN:
-                    relativePaintPattern.Add(new Vector2Int(gridSpaceLocation.x + paintTile.x, gridSpaceLocation.y - paintTile.y));
+                    relativePaintPattern.Add(new Vector2Int(pieceLocation.x + paintTile.x, pieceLocation.y - paintTile.y));
                     break;
                 case Direction.LEFT:
-                    relativePaintPattern.Add(new Vector2Int(gridSpaceLocation.x - paintTile.y, gridSpaceLocation.y + paintTile.x));
+                    relativePaintPattern.Add(new Vector2Int(pieceLocation.x - paintTile.y, pieceLocation.y + paintTile.x));
                     break;
                 case Direction.RIGHT:
-                    relativePaintPattern.Add(new Vector2Int(gridSpaceLocation.x + paintTile.y, gridSpaceLocation.y + paintTile.x));
+                    relativePaintPattern.Add(new Vector2Int(pieceLocation.x + paintTile.y, pieceLocation.y + paintTile.x));
                     break;
             }
         }
