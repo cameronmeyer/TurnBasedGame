@@ -6,8 +6,9 @@ public class MapGenerator : MonoBehaviour
 {
     [SerializeField] GameObject floor;
     [SerializeField] Texture2D mapImage;
+    public bool doneGenerating = false;
 
-    void Start()
+    public void GenerateMap()
     {
         Color[] pixels = mapImage.GetPixels();
 
@@ -37,7 +38,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     GameObject floorTile = Instantiate(floor, currentSpawnPos, floor.transform.rotation);
                     floorTile.GetComponent<Tile>().Init(TileSpawn.NO_SPAWN);
-                    board[x, z] = new GridSpace(null, floorTile.GetComponent<Tile>());
+                    board[x, z] = new GridSpace(null, floorTile.GetComponent<Tile>(), new Vector2Int(x, z));
                 }
                 else if(pixels[counter].Equals(Color.red))
                 {
@@ -45,7 +46,7 @@ public class MapGenerator : MonoBehaviour
                     //floorTile.GetComponent<Tile>().respawn = TileSpawn.RESPAWN_SQUID;
                     floorTile.GetComponent<Tile>().Init(TileSpawn.RESPAWN_SQUID);
                     squidRespawns.Add(new Vector2Int(x, z));
-                    board[x, z] = new GridSpace(null, floorTile.GetComponent<Tile>());
+                    board[x, z] = new GridSpace(null, floorTile.GetComponent<Tile>(), new Vector2Int(x, z));
                 }
                 else if (pixels[counter].Equals(Color.blue))
                 {
@@ -53,11 +54,11 @@ public class MapGenerator : MonoBehaviour
                     //floorTile.GetComponent<Tile>().respawn = TileSpawn.RESPAWN_KID;
                     floorTile.GetComponent<Tile>().Init(TileSpawn.RESPAWN_KID);
                     kidRespawns.Add(new Vector2Int(x, z));
-                    board[x, z] = new GridSpace(null, floorTile.GetComponent<Tile>());
+                    board[x, z] = new GridSpace(null, floorTile.GetComponent<Tile>(), new Vector2Int(x, z));
                 }
                 else
                 {
-                    board[x, z] = new GridSpace(null, null);
+                    board[x, z] = new GridSpace(null, null, new Vector2Int(x, z));
                 }
 
                 counter++;
@@ -70,6 +71,8 @@ public class MapGenerator : MonoBehaviour
 
         BoardStatus.current.Setup(board);
         BoardStatus.current.InitTeams(squidRespawns, kidRespawns);
+
+        doneGenerating = true;
 
         /*string boardDebug = "";
         for (int z = worldZ - 1; z >= 0; z--)

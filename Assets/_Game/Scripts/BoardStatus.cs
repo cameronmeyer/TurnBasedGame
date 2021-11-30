@@ -16,12 +16,14 @@ public class BoardStatus : MonoBehaviour
     [SerializeField] private GameObject Bomb;
     [SerializeField] private int maxPieceHP = 2;
     [SerializeField] private bool isPaintBoard = false;
+    private Pathfinding pathfinding;
 
     [HideInInspector] public GridSpace[,] board;
 
     public void Setup(GridSpace[,] map)
     {
         board = map;
+        pathfinding = new Pathfinding();
     }
 
     void Awake()
@@ -116,14 +118,34 @@ public class BoardStatus : MonoBehaviour
 
     private void Update()
     {
+        int pieceIndex = (int)Random.Range(0, TeamSquid.Count);
+        Piece piece = TeamKid[pieceIndex];
+
         if (isPaintBoard)
         {
-            int pieceIndex = (int) Random.Range(0, TeamSquid.Count);
-            Piece piece = TeamKid[pieceIndex];
-
             PaintBoard(piece, Direction.LEFT);
             isPaintBoard = false;
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 mouseWorldPosition = GetMouseWorldPosition();
+            Debug.Log(mouseWorldPosition);
+
+            List<GridSpace> path = pathfinding.FindPath(piece.pieceLocation, new Vector2Int(20, 3));
+            if (path != null)
+            {
+                for (int i = 0; i < path.Count; i++)
+                {
+                    path[i].tile.UpdatePaint(TilePaint.SQUID_PAINT);
+                }
+            }
+        }
+    }
+
+    public static Vector3 GetMouseWorldPosition()
+    {
+        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
     public void PaintBoard(Piece paintSource, Direction dir)
@@ -162,14 +184,26 @@ public class BoardStatus : MonoBehaviour
     }
 }
 
-public struct GridSpace
+public class GridSpace
 {
     public Piece piece;
     public Tile tile;
+    public Vector2Int location;
+    public Vector3Int pathfindingCosts;  // (fCost, gCost, hCost)
+    public GridSpace pathfindingPrevNode;
 
-    public GridSpace(Piece piece, Tile tile)
+
+    public GridSpace(Piece piece, Tile tile, Vector2Int location)
     {
         this.piece = piece;
         this.tile = tile;
+        this.location = location;
+        pathfindingCosts = Vector3Int.zero;
+        pathfindingPrevNode = null;
+    }
+
+    public void pathfindingCalcFCost()
+    {
+        pathfindingCosts[0] = pathfindingCosts[1] + pathfindingCosts[2]; // fCost = gCost + hCost
     }
 }

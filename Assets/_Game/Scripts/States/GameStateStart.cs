@@ -5,10 +5,12 @@ using UnityEngine;
 public class GameStateStart : State
 {
     GameStateFSM _stateMachine;
+    MapGenerator mg;
 
     public GameStateStart(GameStateFSM stateMachine)
     {
         _stateMachine = stateMachine;
+        mg = stateMachine.GetComponentInParent<MapGenerator>();
     }
 
     public override void Enter()
@@ -18,6 +20,8 @@ public class GameStateStart : State
         _stateMachine.gameOver = false;
         StatePrinter.current.printState("STATE: Start Game");
         Debug.Log("STATE: Start Game");
+
+        mg.GenerateMap();
     }
 
     public override void Exit()
@@ -29,7 +33,7 @@ public class GameStateStart : State
     {
         base.Update();
 
-        if (StateDuration >= 1.5f)
+        if (mg.doneGenerating)
         {
             _stateMachine.ChangeState(_stateMachine.SquidSelectState);
         }
