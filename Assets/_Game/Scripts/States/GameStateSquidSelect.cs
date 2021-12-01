@@ -48,7 +48,7 @@ public class GameStateSquidSelect : State
 
             if (!isSelectingPiece)
             {
-                BoardStatus.current.pieceSelection();
+                BoardStatus.current.pieceSelection(true);
                 isSelectingPiece = true;
             }
             else

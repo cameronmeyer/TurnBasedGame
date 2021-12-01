@@ -26,7 +26,7 @@ public class Piece : MonoBehaviour
     public int maxHP { get; private set; }
     [SerializeField] private MeshRenderer paintRenderer;
     [SerializeField] private int paintRendererMaterialIndex = -1;
-    [SerializeField] private float moveSpeed = 1f;
+    private float moveSpeed = 0.2f;
     public Material squidMaterial;
     public Material kidMaterial;
     public bool isMoving = false;
@@ -125,7 +125,7 @@ public class Piece : MonoBehaviour
             Vector3 startPos = transform.position;
             Vector3 targetPos = gs.tile.transform.position;
 
-            while (time < 1)
+            while (time / moveSpeed < 1)
             {
                 time += Time.deltaTime;
                 transform.position = Vector3.Lerp(startPos, targetPos, time / moveSpeed);

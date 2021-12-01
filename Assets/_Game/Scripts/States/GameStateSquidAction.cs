@@ -21,7 +21,7 @@ public class GameStateSquidAction : State
         if (BoardStatus.current.action == Action.MOVE)
         {
             BoardStatus.current.movingPiece.isMoving = true;
-            _stateMachine.ChangeState(_stateMachine.SquidSelectState);
+            //_stateMachine.ChangeState(_stateMachine.SquidSelectState);
         }
     }
 
@@ -35,7 +35,7 @@ public class GameStateSquidAction : State
         base.Update();
         //decrement team action counter
 
-        if (BoardStatus.current.action == Action.MOVE && !BoardStatus.current.movingPiece.isMoving)
+        if (BoardStatus.current.action == Action.MOVE && !BoardStatus.current.isMoving)
         {
             _stateMachine.ChangeState(_stateMachine.SquidSelectState);
         }

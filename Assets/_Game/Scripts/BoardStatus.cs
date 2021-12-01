@@ -146,7 +146,7 @@ public class BoardStatus : MonoBehaviour
         }
     }
 
-    public void pieceSelection()
+    public void pieceSelection(bool team) // true = squid, false = kid
     {
         GridSpace gs = GetGridClick();
 
@@ -155,8 +155,12 @@ public class BoardStatus : MonoBehaviour
             if (gs.piece != null)
             {
                 //isSelectingMove = true;
-                movingPiece = gs.piece;
-                Pathfinding.pathfinding.ShowWalkableArea(gs.piece);
+                if (gs.piece.team == team)
+                {
+                    movingPiece = gs.piece;
+                    Pathfinding.pathfinding.ShowWalkableArea(gs.piece);
+                    return;
+                }
             }
             else
             {
@@ -167,6 +171,8 @@ public class BoardStatus : MonoBehaviour
         {
             Pathfinding.pathfinding.HideWalkAbleArea();
         }
+
+        movingPiece = null;
     }
 
     public bool destinationSelection()
