@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameStateFinish : State
 {
     GameStateFSM _stateMachine;
+    bool squidTeamWin = false;
 
     public GameStateFinish(GameStateFSM stateMachine)
     {
@@ -18,6 +19,29 @@ public class GameStateFinish : State
         _stateMachine.gameOver = true;
         StatePrinter.current.printState("STATE: Finish Game");
         Debug.Log("STATE: Finish Game");
+
+        int squidSpaces = 0;
+        int kidSpaces = 0;
+
+        foreach (GridSpace gs in BoardStatus.current.board)
+        {
+            if (gs.tile != null)
+            {
+                if (gs.tile.paint == TilePaint.SQUID_PAINT)
+                {
+                    squidSpaces++;
+                }
+                else if (gs.tile.paint == TilePaint.KID_PAINT)
+                {
+                    kidSpaces++;
+                }
+            }
+        }
+
+        if (squidSpaces > kidSpaces)
+        {
+            squidTeamWin = true;
+        }
     }
 
     public override void Exit()
@@ -28,22 +52,14 @@ public class GameStateFinish : State
     public override void Update()
     {
         base.Update();
-        //decrement team action counter
 
-        if (StateDuration >= 1.5f) //check if squid team won
+        if (squidTeamWin)
         {
-            if(_stateMachine.squidTeamWin)
-            {
-                _stateMachine.ChangeState(_stateMachine.SquidWinState);
-            }
-            else
-            {
-                _stateMachine.ChangeState(_stateMachine.KidWinState);
-            }
+            _stateMachine.ChangeState(_stateMachine.SquidWinState);
         }
-        //check if kid team won
-        //
-
-        //draw/tie state??
+        else
+        {
+            _stateMachine.ChangeState(_stateMachine.KidWinState);
+        }
     }
 }

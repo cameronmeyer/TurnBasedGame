@@ -66,5 +66,16 @@ public class GameStateKidSelect : State
                 }
             }
         }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (isSelectingPiece)
+            {
+                isSelectingPiece = false;
+                Pathfinding.pathfinding.HideWalkAbleArea();
+                BoardStatus.current.actionsRemaining--;
+                BoardStatus.current.PaintBoard(BoardStatus.current.movingPiece, Direction.LEFT);
+            }
+        }
     }
 }

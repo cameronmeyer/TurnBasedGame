@@ -218,8 +218,14 @@ public class BoardStatus : MonoBehaviour
 
             foreach (Vector2Int paintedTile in paintSplatter)
             {
-                board[paintedTile.x, paintedTile.y].tile.UpdatePaint(TilePaint.SQUID_PAINT);
-                //Debug.Log("Paint Tile: (" + paintedTile.x + ", " + paintedTile.y + ")");
+                GridSpace paintedSpace = board[paintedTile.x, paintedTile.y];
+                if (paintedSpace != null)
+                {
+                    if (paintedSpace.tile != null)
+                    {
+                        paintedSpace.tile.UpdatePaint(TilePaint.SQUID_PAINT);
+                    }
+                }
             }
         }
         else
@@ -229,15 +235,15 @@ public class BoardStatus : MonoBehaviour
 
             foreach (Vector2Int paintedTile in paintSplatter)
             {
-                board[paintedTile.x, paintedTile.y].tile.UpdatePaint(TilePaint.KID_PAINT);
-                //Debug.Log("Paint Tile: (" + paintedTile.x + ", " + paintedTile.y + ")");
+                GridSpace paintedSpace = board[paintedTile.x, paintedTile.y];
+                if (paintedSpace != null)
+                {
+                    if (paintedSpace.tile != null)
+                    {
+                        paintedSpace.tile.UpdatePaint(TilePaint.KID_PAINT);
+                    }
+                }
             }
-        }
-
-        foreach (Vector2Int paintedTile in paintSplatter)
-        {
-            board[paintedTile.x, paintedTile.y].tile.UpdatePaint(TilePaint.SQUID_PAINT);
-            //Debug.Log("Paint Tile: (" + paintedTile.x + ", " + paintedTile.y + ")");
         }
     }
 }

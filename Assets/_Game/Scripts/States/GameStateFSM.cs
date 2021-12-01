@@ -17,7 +17,6 @@ public class GameStateFSM : StateMachineMB
     
     public int MaxTurns = 10;
     [HideInInspector] public int TurnNumber = 0;
-    public bool squidTeamWin { get; private set; }
     [HideInInspector] public bool gameOver = false;
 
     private void Awake()
