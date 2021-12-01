@@ -2,17 +2,60 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pathfinding
+public class Pathfinding : MonoBehaviour
 {
-    private static GridSpace[,] board;
+    public static Pathfinding pathfinding;
+
     private List<GridSpace> openList;   // list of nodes we want to explore
     private List<GridSpace> closedList; // list of already-explored nodes
 
-    public Pathfinding() { }
-    
-    private void Start()
+    private void Awake()
     {
-        board = BoardStatus.current.board;
+        pathfinding = this;
+    }
+
+    public void ShowWalkableArea(Piece movingPiece)
+    {
+        // disable previous highlight markers
+        foreach (GridSpace location in BoardStatus.current.board)
+        {
+            if (location.tile != null)
+            {
+                location.tile.highlightRenderer.enabled = false;
+            }
+        }
+
+        // get max move distance from piece
+        int maxMovementDistance = movingPiece.maxMovementDistance;
+
+        // set loop boundaries
+        int leftBound = Mathf.Max(movingPiece.pieceLocation.x - maxMovementDistance, 0);
+        int rightBound = Mathf.Min(movingPiece.pieceLocation.x + maxMovementDistance, BoardStatus.current.board.GetLength(0) - 1);
+        int lowerBound = Mathf.Max(movingPiece.pieceLocation.y - maxMovementDistance, 0);
+        int upperBound = Mathf.Min(movingPiece.pieceLocation.y + maxMovementDistance, BoardStatus.current.board.GetLength(1) - 1);
+
+        for (int x = leftBound; x <= rightBound; x++)
+        {
+            for (int y = lowerBound; y <= upperBound; y++)
+            {
+                if (BoardStatus.current.board[x, y].tile != null)
+                {
+                    if (BoardStatus.current.board[x, y].piece == null || BoardStatus.current.board[x, y].piece == movingPiece)
+                    {
+                        List<GridSpace> path = FindPath(movingPiece.pieceLocation, new Vector2Int(x, y));
+                        if (path != null)
+                        {
+                            if (path.Count <= maxMovementDistance)
+                            {
+                                // path within movement distance
+                                // show highlight quad
+                                BoardStatus.current.board[x, y].tile.highlightRenderer.enabled = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public List<GridSpace> FindPath(Vector2Int startPos, Vector2Int endPos)
@@ -101,7 +144,7 @@ public class Pathfinding
         if (currentNode.location.x - 1 >= 0 && currentNode.location.x - 1 < BoardStatus.current.board.GetLength(0))
         {
             tempSpace = BoardStatus.current.board[currentNode.location.x - 1, currentNode.location.y];
-            if (tempSpace.tile != null)
+            if (tempSpace.tile != null && tempSpace.piece == null)
             {
                 neighborList.Add(tempSpace);
             }
@@ -111,7 +154,7 @@ public class Pathfinding
         if (currentNode.location.x + 1 >= 0 && currentNode.location.x + 1 < BoardStatus.current.board.GetLength(0))
         {
             tempSpace = BoardStatus.current.board[currentNode.location.x + 1, currentNode.location.y];
-            if (tempSpace.tile != null)
+            if (tempSpace.tile != null && tempSpace.piece == null)
             {
                 neighborList.Add(tempSpace);
             }
@@ -121,7 +164,7 @@ public class Pathfinding
         if (currentNode.location.y - 1 >= 0 && currentNode.location.y - 1 < BoardStatus.current.board.GetLength(1))
         {
             tempSpace = BoardStatus.current.board[currentNode.location.x, currentNode.location.y - 1];
-            if (tempSpace.tile != null)
+            if (tempSpace.tile != null && tempSpace.piece == null)
             {
                 neighborList.Add(tempSpace);
             }
@@ -131,7 +174,7 @@ public class Pathfinding
         if (currentNode.location.y + 1 >= 0 && currentNode.location.y + 1 < BoardStatus.current.board.GetLength(1))
         {
             tempSpace = BoardStatus.current.board[currentNode.location.x, currentNode.location.y + 1];
-            if (tempSpace.tile != null)
+            if (tempSpace.tile != null && tempSpace.piece == null)
             {
                 neighborList.Add(tempSpace);
             }

@@ -22,6 +22,8 @@ public class Tile : MonoBehaviour
     public TileSpawn respawn;
     //public bool isOccupied;
     [HideInInspector] public MeshRenderer tileRenderer;
+    public MeshRenderer highlightRenderer;
+    public Vector2Int tileLocation;
 
     [SerializeField] Material RespawnMaterial;
     [SerializeField] private Material SquidMaterial;
@@ -32,12 +34,13 @@ public class Tile : MonoBehaviour
         tileRenderer = gameObject.GetComponent<MeshRenderer>();
     }
 
-    public void Init(TileSpawn respawn)
+    public void Init(TileSpawn respawn, Vector2Int tileLocation)
     {
         Start();
 
         paint = TilePaint.UNPAINTED;
         this.respawn = respawn;
+        this.tileLocation = tileLocation;
 
         if(respawn != TileSpawn.NO_SPAWN)
             tileRenderer.material = RespawnMaterial;

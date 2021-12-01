@@ -908,6 +908,7 @@ GameObject:
   - component: {fileID: 1879111317}
   - component: {fileID: 1879111318}
   - component: {fileID: 1879111319}
+  - component: {fileID: 1879111320}
   m_Layer: 0
   m_Name: GameState
   m_TagString: Untagged
@@ -1007,6 +1008,18 @@ MonoBehaviour:
     color2: {r: 0.19215687, g: 0.9411765, b: 0.56078434, a: 1}
   - color1: {r: 1, g: 0.7723177, b: 0.3066038, a: 1}
     color2: {r: 0.9716981, g: 0.1787558, b: 0.78905404, a: 1}
+--- !u!114 &1879111320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879111314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e66fe5cca6cea449b15f2b4bb5c98f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2873396341930507818
 PrefabInstance:
   m_ObjectHideFlags: 0

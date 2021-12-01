@@ -21,6 +21,7 @@ public class Piece : MonoBehaviour
 {
     [SerializeField] private Type pieceType;
     public bool team;  // true = squid, false = kid
+    public int maxMovementDistance = 0;
     public int currentHP;
     public int maxHP { get; private set; }
     [SerializeField] private MeshRenderer paintRenderer;

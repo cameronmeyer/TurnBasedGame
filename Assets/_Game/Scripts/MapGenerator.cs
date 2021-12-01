@@ -37,14 +37,14 @@ public class MapGenerator : MonoBehaviour
                 if(pixels[counter].Equals(Color.white))
                 {
                     GameObject floorTile = Instantiate(floor, currentSpawnPos, floor.transform.rotation);
-                    floorTile.GetComponent<Tile>().Init(TileSpawn.NO_SPAWN);
+                    floorTile.GetComponent<Tile>().Init(TileSpawn.NO_SPAWN, new Vector2Int(x, z));
                     board[x, z] = new GridSpace(null, floorTile.GetComponent<Tile>(), new Vector2Int(x, z));
                 }
                 else if(pixels[counter].Equals(Color.red))
                 {
                     GameObject floorTile = Instantiate(floor, currentSpawnPos, floor.transform.rotation);
                     //floorTile.GetComponent<Tile>().respawn = TileSpawn.RESPAWN_SQUID;
-                    floorTile.GetComponent<Tile>().Init(TileSpawn.RESPAWN_SQUID);
+                    floorTile.GetComponent<Tile>().Init(TileSpawn.RESPAWN_SQUID, new Vector2Int(x, z));
                     squidRespawns.Add(new Vector2Int(x, z));
                     board[x, z] = new GridSpace(null, floorTile.GetComponent<Tile>(), new Vector2Int(x, z));
                 }
@@ -52,7 +52,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     GameObject floorTile = Instantiate(floor, currentSpawnPos, floor.transform.rotation);
                     //floorTile.GetComponent<Tile>().respawn = TileSpawn.RESPAWN_KID;
-                    floorTile.GetComponent<Tile>().Init(TileSpawn.RESPAWN_KID);
+                    floorTile.GetComponent<Tile>().Init(TileSpawn.RESPAWN_KID, new Vector2Int(x, z));
                     kidRespawns.Add(new Vector2Int(x, z));
                     board[x, z] = new GridSpace(null, floorTile.GetComponent<Tile>(), new Vector2Int(x, z));
                 }

@@ -16,14 +16,12 @@ public class BoardStatus : MonoBehaviour
     [SerializeField] private GameObject Bomb;
     [SerializeField] private int maxPieceHP = 2;
     [SerializeField] private bool isPaintBoard = false;
-    private Pathfinding pathfinding;
 
     [HideInInspector] public GridSpace[,] board;
 
     public void Setup(GridSpace[,] map)
     {
         board = map;
-        pathfinding = new Pathfinding();
     }
 
     void Awake()
@@ -132,7 +130,7 @@ public class BoardStatus : MonoBehaviour
             Vector3 mouseWorldPosition = GetMouseWorldPosition();
             Debug.Log(mouseWorldPosition);
 
-            List<GridSpace> path = pathfinding.FindPath(piece.pieceLocation, new Vector2Int(20, 3));
+            List<GridSpace> path = Pathfinding.pathfinding.FindPath(piece.pieceLocation, new Vector2Int(20, 3));
             if (path != null)
             {
                 for (int i = 0; i < path.Count; i++)
@@ -140,6 +138,11 @@ public class BoardStatus : MonoBehaviour
                     path[i].tile.UpdatePaint(TilePaint.SQUID_PAINT);
                 }
             }
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            Pathfinding.pathfinding.ShowWalkableArea(piece);
         }
     }
 
