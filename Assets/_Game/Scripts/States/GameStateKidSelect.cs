@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameStateKidSelect : State
 {
     GameStateFSM _stateMachine;
+    bool isSelectingPiece = false;
+    float timeExecuted = 0f;
 
     public GameStateKidSelect(GameStateFSM stateMachine)
     {
@@ -28,9 +30,41 @@ public class GameStateKidSelect : State
     {
         base.Update();
 
-        if (CommenceTransition)//(StateDuration >= 1.5f)
+        if (CommenceTransition || BoardStatus.current.actionsRemaining <= 0)
         {
-            _stateMachine.ChangeState(_stateMachine.KidActionState);
+            if (_stateMachine.TurnNumber < _stateMachine.MaxTurns)
+            {
+                _stateMachine.TurnNumber++;
+                BoardStatus.current.actionsRemaining = BoardStatus.current.maxActions;
+                _stateMachine.ChangeState(_stateMachine.SquidSelectState);
+            }
+            else
+            {
+                _stateMachine.ChangeState(_stateMachine.FinishState);
+            }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (Time.time == timeExecuted)
+                return;
+
+            timeExecuted = Time.time;
+
+            if (!isSelectingPiece)
+            {
+                BoardStatus.current.pieceSelection(false);
+                isSelectingPiece = true;
+            }
+            else
+            {
+                isSelectingPiece = false;
+                if (BoardStatus.current.destinationSelection())
+                {
+                    BoardStatus.current.actionsRemaining--;
+                    _stateMachine.ChangeState(_stateMachine.KidActionState);
+                }
+            }
         }
     }
 }

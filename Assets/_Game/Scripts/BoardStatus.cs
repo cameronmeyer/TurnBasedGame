@@ -18,6 +18,8 @@ public class BoardStatus : MonoBehaviour
     [SerializeField] private bool isPaintBoard = false;
 
     public Action action;
+    public int actionsRemaining;
+    public int maxActions = 4;
 
     public bool isSelectingMove = false;
     public bool isMoving = false;
@@ -29,7 +31,8 @@ public class BoardStatus : MonoBehaviour
     public void Setup(GridSpace[,] map)
     {
         board = map;
-        action = Action.PASS;
+        action = Action.NONE;
+        actionsRemaining = maxActions;
     }
 
     void Awake()
@@ -265,6 +268,7 @@ public class GridSpace
 
 public enum Action
 {
+    NONE,
     MOVE,
     PAINT,
     PASS

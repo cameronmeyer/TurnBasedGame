@@ -21,7 +21,6 @@ public class GameStateSquidAction : State
         if (BoardStatus.current.action == Action.MOVE)
         {
             BoardStatus.current.movingPiece.isMoving = true;
-            //_stateMachine.ChangeState(_stateMachine.SquidSelectState);
         }
     }
 
@@ -37,15 +36,16 @@ public class GameStateSquidAction : State
 
         if (BoardStatus.current.action == Action.MOVE && !BoardStatus.current.isMoving)
         {
+            BoardStatus.current.action = Action.NONE;
             _stateMachine.ChangeState(_stateMachine.SquidSelectState);
         }
 
-        if (CommenceTransition)//(StateDuration >= 1.5f) //check if team can perform more actions
-        {
+        //if (CommenceTransition)//(StateDuration >= 1.5f) //check if team can perform more actions
+        //{
             //commented out so we can show off all the states
             //_stateMachine.ChangeState(_stateMachine.SquidSelectState);
-            _stateMachine.ChangeState(_stateMachine.KidSelectState);
-        }
+        //    _stateMachine.ChangeState(_stateMachine.KidSelectState);
+        //}
         //no more actions are available, next team's turn
         //_stateMachine.ChangeState(_stateMachine.KidSelectState);
     }

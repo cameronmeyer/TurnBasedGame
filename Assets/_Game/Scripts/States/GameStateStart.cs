@@ -35,6 +35,7 @@ public class GameStateStart : State
 
         if (mg.doneGenerating)
         {
+            _stateMachine.TurnNumber++;
             _stateMachine.ChangeState(_stateMachine.SquidSelectState);
         }
     }

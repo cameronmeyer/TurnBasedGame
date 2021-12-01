@@ -17,6 +17,11 @@ public class GameStateKidAction : State
 
         StatePrinter.current.printState("STATE: Kid Team Perform Action");
         Debug.Log("STATE: Kid Team Perform Action");
+
+        if (BoardStatus.current.action == Action.MOVE)
+        {
+            BoardStatus.current.movingPiece.isMoving = true;
+        }
     }
 
     public override void Exit()
@@ -27,27 +32,11 @@ public class GameStateKidAction : State
     public override void Update()
     {
         base.Update();
-        //decrement team action counter
-
-        if (CommenceTransition)//(StateDuration >= 1.5f) //check if team can perform more actions
+        
+        if (BoardStatus.current.action == Action.MOVE && !BoardStatus.current.isMoving)
         {
-            //commented out so we can show off all the states
-            if(_stateMachine.TurnNumber < _stateMachine.MaxTurns)
-            {
-                _stateMachine.ChangeState(_stateMachine.SquidSelectState);
-            }
-            else
-            {
-                _stateMachine.ChangeState(_stateMachine.FinishState);
-            }
-            //_stateMachine.ChangeState(_stateMachine.KidSelectState);
+            BoardStatus.current.action = Action.NONE;
+            _stateMachine.ChangeState(_stateMachine.KidSelectState);
         }
-        //no more actions are available
-
-        //check if more turns are available
-        //_stateMachine.ChangeState(_stateMachine.SquidSelectState);
-
-        //else
-        //
     }
 }

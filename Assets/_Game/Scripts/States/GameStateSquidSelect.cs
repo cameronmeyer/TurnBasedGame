@@ -6,7 +6,6 @@ public class GameStateSquidSelect : State
 {
     GameStateFSM _stateMachine;
     bool isSelectingPiece = false;
-    bool isMovingPiece = false;
     float timeExecuted = 0f;
 
     public GameStateSquidSelect(GameStateFSM stateMachine)
@@ -17,8 +16,6 @@ public class GameStateSquidSelect : State
     public override void Enter()
     {
         base.Enter();
-
-        _stateMachine.TurnNumber++;
 
         StatePrinter.current.printTurn(_stateMachine.TurnNumber, _stateMachine.MaxTurns);
         StatePrinter.current.printState("STATE: Squid Team Select Action");
@@ -34,9 +31,10 @@ public class GameStateSquidSelect : State
     {
         base.Update();
 
-        if (CommenceTransition)
+        if (CommenceTransition || BoardStatus.current.actionsRemaining <= 0)
         {
-            _stateMachine.ChangeState(_stateMachine.SquidActionState);
+            BoardStatus.current.actionsRemaining = BoardStatus.current.maxActions;
+            _stateMachine.ChangeState(_stateMachine.KidSelectState);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -56,6 +54,7 @@ public class GameStateSquidSelect : State
                 isSelectingPiece = false;
                 if (BoardStatus.current.destinationSelection())
                 {
+                    BoardStatus.current.actionsRemaining--;
                     _stateMachine.ChangeState(_stateMachine.SquidActionState);
                 }
             }
