@@ -22,6 +22,7 @@ public class Tile : MonoBehaviour
     public TileSpawn respawn;
     //public bool isOccupied;
     [HideInInspector] public MeshRenderer tileRenderer;
+    public MeshRenderer respawnRenderer;
     public MeshRenderer highlightRenderer;
     public Vector2Int tileLocation;
 
@@ -43,7 +44,7 @@ public class Tile : MonoBehaviour
         this.tileLocation = tileLocation;
 
         if(respawn != TileSpawn.NO_SPAWN)
-            tileRenderer.material = RespawnMaterial;
+            respawnRenderer.enabled = true;
     }
 
     public void UpdatePaint(TilePaint newPaint)

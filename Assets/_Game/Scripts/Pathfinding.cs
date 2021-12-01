@@ -14,16 +14,9 @@ public class Pathfinding : MonoBehaviour
         pathfinding = this;
     }
 
-    public void ShowWalkableArea(Piece movingPiece)
+    public List<GridSpace> GetWalkableArea(Piece movingPiece)
     {
-        // disable previous highlight markers
-        foreach (GridSpace location in BoardStatus.current.board)
-        {
-            if (location.tile != null)
-            {
-                location.tile.highlightRenderer.enabled = false;
-            }
-        }
+        List<GridSpace> walkableSpaces = new List<GridSpace>();
 
         // get max move distance from piece
         int maxMovementDistance = movingPiece.maxMovementDistance;
@@ -48,13 +41,37 @@ public class Pathfinding : MonoBehaviour
                             if (path.Count <= maxMovementDistance)
                             {
                                 // path within movement distance
-                                // show highlight quad
-                                BoardStatus.current.board[x, y].tile.highlightRenderer.enabled = true;
+                                walkableSpaces.Add(BoardStatus.current.board[x, y]);
                             }
                         }
                     }
                 }
             }
+        }
+
+        return walkableSpaces;
+    }
+
+    public void HideWalkAbleArea()
+    {
+        foreach (GridSpace location in BoardStatus.current.board)
+        {
+            if (location.tile != null)
+            {
+                location.tile.highlightRenderer.enabled = false;
+            }
+        }
+    }
+
+    public void ShowWalkableArea(Piece movingPiece)
+    {
+        // disable previous highlight markers
+        HideWalkAbleArea();
+
+        // enable highlight markers
+        foreach (GridSpace gs in GetWalkableArea(movingPiece))
+        {
+            gs.tile.highlightRenderer.enabled = true;
         }
     }
 
@@ -62,6 +79,7 @@ public class Pathfinding : MonoBehaviour
     {
         GridSpace startNode = BoardStatus.current.board[startPos.x, startPos.y];
         GridSpace endNode = BoardStatus.current.board[endPos.x, endPos.y];
+        Piece movingPiece = startNode.piece;
 
         openList = new List<GridSpace> { startNode };
         closedList = new List<GridSpace>();
@@ -97,6 +115,16 @@ public class Pathfinding : MonoBehaviour
             foreach (GridSpace neighbor in GetNeighborList(currentNode))
             {
                 if (closedList.Contains(neighbor)) continue;
+
+                // rollers can only move in straight lines
+                if (movingPiece.pieceType == Type.ROLLER)
+                {
+                    if (neighbor.location.x != startNode.location.x && neighbor.location.y != startNode.location.y)
+                    {
+                        closedList.Add(neighbor);
+                        continue;
+                    }
+                }
 
                 int tentativeGCost = currentNode.pathfindingCosts[1] + CalculateDistanceCost(currentNode, neighbor);
 
@@ -141,6 +169,7 @@ public class Pathfinding : MonoBehaviour
         GridSpace tempSpace;
 
         // left
+        // check that the neighbor location is in bounds of the board array
         if (currentNode.location.x - 1 >= 0 && currentNode.location.x - 1 < BoardStatus.current.board.GetLength(0))
         {
             tempSpace = BoardStatus.current.board[currentNode.location.x - 1, currentNode.location.y];

@@ -19,15 +19,17 @@ public enum Direction
 
 public class Piece : MonoBehaviour
 {
-    [SerializeField] private Type pieceType;
+    public Type pieceType;
     public bool team;  // true = squid, false = kid
     public int maxMovementDistance = 0;
     public int currentHP;
     public int maxHP { get; private set; }
     [SerializeField] private MeshRenderer paintRenderer;
     [SerializeField] private int paintRendererMaterialIndex = -1;
+    [SerializeField] private float moveSpeed = 1f;
     public Material squidMaterial;
     public Material kidMaterial;
+    public bool isMoving = false;
 
     public Vector2Int pieceLocation;
     public Vector2Int respawnLocation;
@@ -43,6 +45,16 @@ public class Piece : MonoBehaviour
         Material[] pieceMaterialInstances = paintRenderer.materials;
         pieceMaterialInstances[paintRendererMaterialIndex] = team ? squidMaterial : kidMaterial;
         paintRenderer.materials = pieceMaterialInstances;
+    }
+
+    private void Update()
+    {
+        if (isMoving)
+        {
+            isMoving = false;
+            List<GridSpace> path = BoardStatus.current.movingPath;
+            StartCoroutine(MoveTo(path));
+        }
     }
 
     public List<Vector2Int> getPaintPattern(Direction facing)
@@ -103,5 +115,27 @@ public class Piece : MonoBehaviour
         }
 
         return relativePaintPattern;
+    }
+
+    public IEnumerator MoveTo(List<GridSpace> path)
+    {
+        foreach (GridSpace gs in path)
+        {
+            float time = 0;
+            Vector3 startPos = transform.position;
+            Vector3 targetPos = gs.tile.transform.position;
+
+            while (time < 1)
+            {
+                time += Time.deltaTime;
+                transform.position = Vector3.Lerp(startPos, targetPos, time / moveSpeed);
+
+                yield return null;
+            }
+
+            transform.position = targetPos;
+        }
+
+        BoardStatus.current.isMoving = false;
     }
 }

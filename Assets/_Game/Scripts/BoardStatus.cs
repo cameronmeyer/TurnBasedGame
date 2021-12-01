@@ -17,11 +17,19 @@ public class BoardStatus : MonoBehaviour
     [SerializeField] private int maxPieceHP = 2;
     [SerializeField] private bool isPaintBoard = false;
 
+    public Action action;
+
+    public bool isSelectingMove = false;
+    public bool isMoving = false;
+    public Piece movingPiece;
+    public List<GridSpace> movingPath;
+
     [HideInInspector] public GridSpace[,] board;
 
     public void Setup(GridSpace[,] map)
     {
         board = map;
+        action = Action.PASS;
     }
 
     void Awake()
@@ -107,11 +115,23 @@ public class BoardStatus : MonoBehaviour
             squidTeamRespawns.RemoveAt(squidRespawnIndex);
             kidTeamRespawns.RemoveAt(kidRespawnIndex);
         }
+    }
 
-        foreach (Piece piece in TeamSquid)
+    private GridSpace GetGridClick()
+    {
+        RaycastHit h;
+        Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
+        
+        if (Physics.Raycast(r, out h))
         {
-            Debug.Log("Piece " + TeamSquid.Count);
+            if (h.transform.gameObject.GetComponent<Tile>() != null)
+            {
+                Vector2Int pos = h.transform.gameObject.GetComponent<Tile>().tileLocation;
+                return board[pos.x, pos.y];
+            }
         }
+
+        return null;
     }
 
     private void Update()
@@ -124,31 +144,57 @@ public class BoardStatus : MonoBehaviour
             PaintBoard(piece, Direction.LEFT);
             isPaintBoard = false;
         }
+    }
 
-        if (Input.GetMouseButtonDown(0))
+    public void pieceSelection()
+    {
+        GridSpace gs = GetGridClick();
+
+        if (gs != null)
         {
-            Vector3 mouseWorldPosition = GetMouseWorldPosition();
-            Debug.Log(mouseWorldPosition);
-
-            List<GridSpace> path = Pathfinding.pathfinding.FindPath(piece.pieceLocation, new Vector2Int(20, 3));
-            if (path != null)
+            if (gs.piece != null)
             {
-                for (int i = 0; i < path.Count; i++)
+                //isSelectingMove = true;
+                movingPiece = gs.piece;
+                Pathfinding.pathfinding.ShowWalkableArea(gs.piece);
+            }
+            else
+            {
+                Pathfinding.pathfinding.HideWalkAbleArea();
+            }
+        }
+        else
+        {
+            Pathfinding.pathfinding.HideWalkAbleArea();
+        }
+    }
+
+    public bool destinationSelection()
+    {
+        GridSpace gs = GetGridClick();
+
+        if (gs != null)
+        {
+            if (movingPiece != null)
+            {
+                if (gs.tile.highlightRenderer.enabled == true)
                 {
-                    path[i].tile.UpdatePaint(TilePaint.SQUID_PAINT);
+                    movingPath = Pathfinding.pathfinding.FindPath(movingPiece.pieceLocation, gs.location);  // set path to move along
+                    board[movingPiece.pieceLocation.x, movingPiece.pieceLocation.y].piece = null;           // reset starting point's piece ref
+                    gs.piece = movingPiece;                                                                 // set end point's piece ref
+                    movingPiece.pieceLocation = gs.location;                                                // set piece's new grid location
+                    action = Action.MOVE;                                                                   // action move
+                    isMoving = true;                                                                        // moving piece anim
+                    Pathfinding.pathfinding.HideWalkAbleArea();
+                    isSelectingMove = false;
+                    return true;
                 }
             }
         }
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            Pathfinding.pathfinding.ShowWalkableArea(piece);
-        }
-    }
-
-    public static Vector3 GetMouseWorldPosition()
-    {
-        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Pathfinding.pathfinding.HideWalkAbleArea();
+        isSelectingMove = false;
+        return false;
     }
 
     public void PaintBoard(Piece paintSource, Direction dir)
@@ -209,4 +255,11 @@ public class GridSpace
     {
         pathfindingCosts[0] = pathfindingCosts[1] + pathfindingCosts[2]; // fCost = gCost + hCost
     }
+}
+
+public enum Action
+{
+    MOVE,
+    PAINT,
+    PASS
 }

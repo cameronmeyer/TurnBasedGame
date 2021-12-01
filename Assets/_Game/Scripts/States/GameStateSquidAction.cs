@@ -17,6 +17,12 @@ public class GameStateSquidAction : State
 
         StatePrinter.current.printState("STATE: Squid Team Perform Action");
         Debug.Log("STATE: Squid Team Perform Action");
+
+        if (BoardStatus.current.action == Action.MOVE)
+        {
+            BoardStatus.current.movingPiece.isMoving = true;
+            _stateMachine.ChangeState(_stateMachine.SquidSelectState);
+        }
     }
 
     public override void Exit()
@@ -28,6 +34,11 @@ public class GameStateSquidAction : State
     {
         base.Update();
         //decrement team action counter
+
+        if (BoardStatus.current.action == Action.MOVE && !BoardStatus.current.movingPiece.isMoving)
+        {
+            _stateMachine.ChangeState(_stateMachine.SquidSelectState);
+        }
 
         if (CommenceTransition)//(StateDuration >= 1.5f) //check if team can perform more actions
         {

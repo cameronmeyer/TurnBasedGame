@@ -50,6 +50,7 @@ MonoBehaviour:
   currentHP: 0
   paintRenderer: {fileID: 6765630321156739374}
   paintRendererMaterialIndex: 0
+  moveSpeed: 100
   squidMaterial: {fileID: 2100000, guid: ef81e7fe365488546a9cf015f72f62a5, type: 2}
   kidMaterial: {fileID: 2100000, guid: 0d510bde4a392bd4fa37dac5bda5cab2, type: 2}
   pieceLocation: {x: 0, y: 0}

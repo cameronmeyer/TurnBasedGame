@@ -5,6 +5,9 @@ using UnityEngine;
 public class GameStateSquidSelect : State
 {
     GameStateFSM _stateMachine;
+    bool isSelectingPiece = false;
+    bool isMovingPiece = false;
+    float timeExecuted = 0f;
 
     public GameStateSquidSelect(GameStateFSM stateMachine)
     {
@@ -31,9 +34,31 @@ public class GameStateSquidSelect : State
     {
         base.Update();
 
-        if (CommenceTransition)//(StateDuration >= 1.5f)
+        if (CommenceTransition)
         {
             _stateMachine.ChangeState(_stateMachine.SquidActionState);
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (Time.time == timeExecuted)
+                return;
+
+            timeExecuted = Time.time;
+
+            if (!isSelectingPiece)
+            {
+                BoardStatus.current.pieceSelection();
+                isSelectingPiece = true;
+            }
+            else
+            {
+                isSelectingPiece = false;
+                if (BoardStatus.current.destinationSelection())
+                {
+                    _stateMachine.ChangeState(_stateMachine.SquidActionState);
+                }
+            }
         }
     }
 }

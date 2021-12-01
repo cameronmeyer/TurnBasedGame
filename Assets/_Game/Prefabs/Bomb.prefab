@@ -46,11 +46,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceType: 2
   team: 0
+  maxMovementDistance: 0
   currentHP: 0
   paintRenderer: {fileID: 6683476249198877290}
   paintRendererMaterialIndex: 2
+  moveSpeed: 1
   squidMaterial: {fileID: 2100000, guid: ef81e7fe365488546a9cf015f72f62a5, type: 2}
   kidMaterial: {fileID: 2100000, guid: 0d510bde4a392bd4fa37dac5bda5cab2, type: 2}
+  pieceLocation: {x: 0, y: 0}
+  respawnLocation: {x: 0, y: 0}
 --- !u!1001 &8359748555986275550
 PrefabInstance:
   m_ObjectHideFlags: 0
