@@ -125,6 +125,11 @@ public class Piece : MonoBehaviour
             Vector3 startPos = transform.position;
             Vector3 targetPos = gs.tile.transform.position;
 
+            if (pieceType == Type.ROLLER)
+            {
+                BoardStatus.current.PaintSquare(this);
+            }
+
             while (time / moveSpeed < 1)
             {
                 time += Time.deltaTime;
@@ -134,8 +139,13 @@ public class Piece : MonoBehaviour
             }
 
             transform.position = targetPos;
+            pieceLocation = gs.location;
         }
 
+        if (pieceType == Type.ROLLER)
+        {
+            BoardStatus.current.PaintSquare(this);
+        }
         BoardStatus.current.isMoving = false;
     }
 }

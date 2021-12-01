@@ -120,7 +120,7 @@ public class BoardStatus : MonoBehaviour
         }
     }
 
-    private GridSpace GetGridClick()
+    public GridSpace GetGridClick()
     {
         RaycastHit h;
         Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -191,7 +191,7 @@ public class BoardStatus : MonoBehaviour
                     movingPath = Pathfinding.pathfinding.FindPath(movingPiece.pieceLocation, gs.location);  // set path to move along
                     board[movingPiece.pieceLocation.x, movingPiece.pieceLocation.y].piece = null;           // reset starting point's piece ref
                     gs.piece = movingPiece;                                                                 // set end point's piece ref
-                    movingPiece.pieceLocation = gs.location;                                                // set piece's new grid location
+                    //movingPiece.pieceLocation = gs.location;                                                // set piece's new grid location
                     action = Action.MOVE;                                                                   // action move
                     isMoving = true;                                                                        // moving piece anim
                     Pathfinding.pathfinding.HideWalkAbleArea();
@@ -204,6 +204,32 @@ public class BoardStatus : MonoBehaviour
         Pathfinding.pathfinding.HideWalkAbleArea();
         isSelectingMove = false;
         return false;
+    }
+
+    public void PaintSquare(Piece paintSource)
+    {
+        if (paintSource.team) // painting for Squid Team
+        {
+            GridSpace paintedSpace = board[paintSource.pieceLocation.x, paintSource.pieceLocation.y];
+            if (paintedSpace != null)
+            {
+                if (paintedSpace.tile != null)
+                {
+                    paintedSpace.tile.UpdatePaint(TilePaint.SQUID_PAINT);
+                }
+            }
+        }
+        else
+        {
+            GridSpace paintedSpace = board[paintSource.pieceLocation.x, paintSource.pieceLocation.y];
+            if (paintedSpace != null)
+            {
+                if (paintedSpace.tile != null)
+                {
+                    paintedSpace.tile.UpdatePaint(TilePaint.KID_PAINT);
+                }
+            }
+        }
     }
 
     public void PaintBoard(Piece paintSource, Direction dir)
