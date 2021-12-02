@@ -199,7 +199,6 @@ public class BoardStatus : MonoBehaviour
                     movingPath = Pathfinding.pathfinding.FindPath(movingPiece.pieceLocation, gs.location);  // set path to move along
                     board[movingPiece.pieceLocation.x, movingPiece.pieceLocation.y].piece = null;           // reset starting point's piece ref
                     gs.piece = movingPiece;                                                                 // set end point's piece ref
-                    //movingPiece.pieceLocation = gs.location;                                                // set piece's new grid location
                     action = Action.MOVE;                                                                   // action move
                     isMoving = true;                                                                        // moving piece anim
                     Pathfinding.pathfinding.HideWalkAbleArea();
@@ -252,12 +251,15 @@ public class BoardStatus : MonoBehaviour
 
             foreach (Vector2Int paintedTile in paintSplatter)
             {
-                GridSpace paintedSpace = board[paintedTile.x, paintedTile.y];
-                if (paintedSpace != null)
+                if (paintedTile.x >= 0 && paintedTile.x < board.GetLength(0) && paintedTile.y >= 0 && paintedTile.y < board.GetLength(1))
                 {
-                    if (paintedSpace.tile != null)
+                    GridSpace paintedSpace = board[paintedTile.x, paintedTile.y];
+                    if (paintedSpace != null)
                     {
-                        paintedSpace.tile.UpdatePaint(TilePaint.SQUID_PAINT);
+                        if (paintedSpace.tile != null)
+                        {
+                            paintedSpace.tile.UpdatePaint(TilePaint.SQUID_PAINT);
+                        }
                     }
                 }
             }

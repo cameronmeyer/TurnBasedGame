@@ -248,10 +248,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1958,11 +1958,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46796f66bc35ddc479a7e89a0aa97d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paintSplatter: {fileID: 0}
-  footstep: {fileID: 0}
-  win: {fileID: 0}
-  lose: {fileID: 0}
-  music: {fileID: 0}
+  paintSplatter: {fileID: 8300000, guid: 3464cc3992c241f4f8dd08702f9cf3c1, type: 3}
+  footstep: {fileID: 8300000, guid: cf9077d32735f01478b97dde6edc6199, type: 3}
+  win: {fileID: 8300000, guid: 62831ba1d6c907e47a8222344a1b4237, type: 3}
+  lose: {fileID: 8300000, guid: 2cbf8c934b0627e459edb6db2f66c1bd, type: 3}
+  music: {fileID: 8300000, guid: 1596d44ad9d5460489ad243f85d54e02, type: 3}
 --- !u!1 &1995827322
 GameObject:
   m_ObjectHideFlags: 0
@@ -2063,7 +2063,7 @@ RectTransform:
   m_GameObject: {fileID: 2026303624}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3845052, y: 1.3845052, z: 1.3845052}
   m_Children:
   - {fileID: 1035110034}
   - {fileID: 177164440}

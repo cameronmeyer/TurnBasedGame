@@ -11,7 +11,7 @@ public class Sounds : MonoBehaviour
     public AudioClip lose;
     public AudioClip music;
 
-    private void Start()
+    private void Awake()
     {
         current = this;
     }

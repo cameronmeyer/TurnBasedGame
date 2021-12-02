@@ -76,8 +76,37 @@ public class GameStateKidSelect : State
                 isSelectingPiece = false;
                 Pathfinding.pathfinding.HideWalkAbleArea();
                 BoardStatus.current.actionsRemaining--;
-                BoardStatus.current.PaintBoard(BoardStatus.current.movingPiece, Direction.LEFT);
                 AudioHelper.PlayClip2D(Sounds.current.paintSplatter, 0.8f);
+
+                Direction dir = Direction.LEFT;
+                GridSpace gs = BoardStatus.current.GetGridClick();
+                Vector2Int gsLocation = new Vector2Int(0, 0);
+
+                if (gs != null)
+                {
+                    gsLocation = gs.location;
+                }
+
+                if (Mathf.Abs(gsLocation.y - BoardStatus.current.movingPiece.pieceLocation.y) > Mathf.Abs(gsLocation.x - BoardStatus.current.movingPiece.pieceLocation.x))
+                {
+                    if (gsLocation.y - BoardStatus.current.movingPiece.pieceLocation.y > 0)
+                    {
+                        dir = Direction.UP;
+                    }
+                    else
+                    {
+                        dir = Direction.DOWN;
+                    }
+                }
+                else
+                {
+                    if (gsLocation.x - BoardStatus.current.movingPiece.pieceLocation.x > 0)
+                    {
+                        dir = Direction.RIGHT;
+                    }
+                }
+
+                BoardStatus.current.PaintBoard(BoardStatus.current.movingPiece, dir);
             }
         }
     }
