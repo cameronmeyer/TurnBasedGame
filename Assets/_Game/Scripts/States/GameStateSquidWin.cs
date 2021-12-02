@@ -17,6 +17,8 @@ public class GameStateSquidWin : State
 
         StatePrinter.current.printState("STATE: Squid Team Win\nPress ESC for Main Menu");
         Debug.Log("STATE: Squid Team Win");
+
+        AudioHelper.PlayClip2D(Sounds.current.win, 0.8f);
     }
 
     public override void Exit()

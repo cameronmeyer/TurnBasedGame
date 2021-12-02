@@ -21,6 +21,8 @@ public class GameStateStart : State
         StatePrinter.current.printState("STATE: Start Game");
         Debug.Log("STATE: Start Game");
 
+        AudioHelper.PlayClip2D(Sounds.current.music, 0.2f);
+
         mg.GenerateMap();
     }
 

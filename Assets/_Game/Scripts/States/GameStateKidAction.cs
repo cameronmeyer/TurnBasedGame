@@ -15,7 +15,6 @@ public class GameStateKidAction : State
     {
         base.Enter();
 
-        StatePrinter.current.printState("STATE: Kid Team Perform Action");
         Debug.Log("STATE: Kid Team Perform Action");
 
         if (BoardStatus.current.action == Action.MOVE)

@@ -140,6 +140,7 @@ public class Piece : MonoBehaviour
 
             transform.position = targetPos;
             pieceLocation = gs.location;
+            AudioHelper.PlayClip2D(Sounds.current.footstep, 0.8f);
         }
 
         if (pieceType == Type.ROLLER)

@@ -17,6 +17,8 @@ public class GameStateKidWin : State
 
         StatePrinter.current.printState("STATE: Kid Team Win\nPress ESC for Main Menu");
         Debug.Log("STATE: Kid Team Win");
+
+        AudioHelper.PlayClip2D(Sounds.current.lose, 0.8f);
     }
 
     public override void Exit()

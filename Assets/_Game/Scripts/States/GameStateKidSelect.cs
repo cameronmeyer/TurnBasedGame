@@ -17,7 +17,10 @@ public class GameStateKidSelect : State
     {
         base.Enter();
 
-        StatePrinter.current.printState("STATE: Kid Team Select Action");
+        BoardStatus.current.movingPiece = null;
+
+        StatePrinter.current.printState("Kid Team's Turn");
+        StatePrinter.current.printAction(BoardStatus.current.actionsRemaining, BoardStatus.current.maxActions);
         Debug.Log("STATE: Kid Team Select Action");
     }
 
@@ -53,8 +56,7 @@ public class GameStateKidSelect : State
 
             if (!isSelectingPiece)
             {
-                BoardStatus.current.pieceSelection(false);
-                isSelectingPiece = true;
+                isSelectingPiece = BoardStatus.current.pieceSelection(false);
             }
             else
             {
@@ -75,6 +77,7 @@ public class GameStateKidSelect : State
                 Pathfinding.pathfinding.HideWalkAbleArea();
                 BoardStatus.current.actionsRemaining--;
                 BoardStatus.current.PaintBoard(BoardStatus.current.movingPiece, Direction.LEFT);
+                AudioHelper.PlayClip2D(Sounds.current.paintSplatter, 0.8f);
             }
         }
     }

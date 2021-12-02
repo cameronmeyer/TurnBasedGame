@@ -10,6 +10,7 @@ public class GameStateFinish : State
     public GameStateFinish(GameStateFSM stateMachine)
     {
         _stateMachine = stateMachine;
+        //ui = StatePrinter.current.ui;
     }
 
     public override void Enter()
@@ -19,6 +20,9 @@ public class GameStateFinish : State
         _stateMachine.gameOver = true;
         StatePrinter.current.printState("STATE: Finish Game");
         Debug.Log("STATE: Finish Game");
+
+        UserInterface.current.HideGameplayUI();
+        UserInterface.current.ShowFinishUI();
 
         int squidSpaces = 0;
         int kidSpaces = 0;
@@ -55,10 +59,12 @@ public class GameStateFinish : State
 
         if (squidTeamWin)
         {
+            StatePrinter.current.printWinner(true);
             _stateMachine.ChangeState(_stateMachine.SquidWinState);
         }
         else
         {
+            StatePrinter.current.printWinner(false);
             _stateMachine.ChangeState(_stateMachine.KidWinState);
         }
     }

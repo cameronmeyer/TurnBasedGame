@@ -15,7 +15,6 @@ public class BoardStatus : MonoBehaviour
     [SerializeField] private GameObject Roller;
     [SerializeField] private GameObject Bomb;
     [SerializeField] private int maxPieceHP = 2;
-    [SerializeField] private bool isPaintBoard = false;
 
     public Action action;
     public int actionsRemaining;
@@ -25,6 +24,9 @@ public class BoardStatus : MonoBehaviour
     public bool isMoving = false;
     public Piece movingPiece;
     public List<GridSpace> movingPath;
+    public GameObject pieceIndicator;
+    public MeshRenderer pieceIndicatorMR;
+    private float pieceIndicatorOffset;
 
     [HideInInspector] public GridSpace[,] board;
 
@@ -33,6 +35,8 @@ public class BoardStatus : MonoBehaviour
         board = map;
         action = Action.NONE;
         actionsRemaining = maxActions;
+        pieceIndicatorMR.enabled = false;
+        pieceIndicatorOffset = pieceIndicator.transform.position.y;
     }
 
     void Awake()
@@ -139,17 +143,20 @@ public class BoardStatus : MonoBehaviour
 
     private void Update()
     {
-        int pieceIndex = (int)Random.Range(0, TeamSquid.Count);
-        Piece piece = TeamKid[pieceIndex];
-
-        if (isPaintBoard)
+        if (movingPiece != null)
         {
-            PaintBoard(piece, Direction.LEFT);
-            isPaintBoard = false;
+            Vector3 pos = movingPiece.transform.position;
+            pos.y += pieceIndicatorOffset;
+            pieceIndicator.transform.position = pos;
+            pieceIndicatorMR.enabled = true;
+        }
+        else
+        {
+            pieceIndicatorMR.enabled = false;
         }
     }
 
-    public void pieceSelection(bool team) // true = squid, false = kid
+    public bool pieceSelection(bool team) // true = squid, false = kid
     {
         GridSpace gs = GetGridClick();
 
@@ -162,7 +169,7 @@ public class BoardStatus : MonoBehaviour
                 {
                     movingPiece = gs.piece;
                     Pathfinding.pathfinding.ShowWalkableArea(gs.piece);
-                    return;
+                    return true;
                 }
             }
             else
@@ -176,6 +183,7 @@ public class BoardStatus : MonoBehaviour
         }
 
         movingPiece = null;
+        return false;
     }
 
     public bool destinationSelection()

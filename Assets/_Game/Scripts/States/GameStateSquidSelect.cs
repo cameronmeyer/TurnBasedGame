@@ -17,8 +17,11 @@ public class GameStateSquidSelect : State
     {
         base.Enter();
 
+        BoardStatus.current.movingPiece = null;
+
         StatePrinter.current.printTurn(_stateMachine.TurnNumber, _stateMachine.MaxTurns);
-        StatePrinter.current.printState("STATE: Squid Team Select Action");
+        StatePrinter.current.printState("Squid Team's Turn");
+        StatePrinter.current.printAction(BoardStatus.current.actionsRemaining, BoardStatus.current.maxActions);
         Debug.Log("STATE: Squid Team Select Action");
     }
 
@@ -46,8 +49,7 @@ public class GameStateSquidSelect : State
 
             if (!isSelectingPiece)
             {
-                BoardStatus.current.pieceSelection(true);
-                isSelectingPiece = true;
+                isSelectingPiece = BoardStatus.current.pieceSelection(true);
             }
             else
             {
@@ -68,6 +70,7 @@ public class GameStateSquidSelect : State
                 Pathfinding.pathfinding.HideWalkAbleArea();
                 BoardStatus.current.actionsRemaining--;
                 BoardStatus.current.PaintBoard(BoardStatus.current.movingPiece, Direction.RIGHT);
+                AudioHelper.PlayClip2D(Sounds.current.paintSplatter, 0.8f);
             }
         }
     }
